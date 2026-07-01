@@ -20,5 +20,4 @@ public class CameraModel {
 
     private String model;
 
-    private Integer year;
 }

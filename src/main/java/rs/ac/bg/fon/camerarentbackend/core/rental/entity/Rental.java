@@ -22,6 +22,8 @@ public class Rental {
 
     private LocalDate endDate;
 
+    private String status; // da li je vratio ili nije
+
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;

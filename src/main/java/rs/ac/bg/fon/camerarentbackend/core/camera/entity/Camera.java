@@ -19,6 +19,8 @@ public class Camera {
 
     private String cameraCondition;
 
+    private Integer year;
+
     @ManyToOne
     @JoinColumn(name = "camera_model_id", nullable = false)
     private CameraModel cameraModel;

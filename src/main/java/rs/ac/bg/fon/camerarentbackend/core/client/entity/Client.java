@@ -20,7 +20,7 @@ public class Client {
 
     private String email;
 
-    private String mobile;
+    private String phoneNumber;
 
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
