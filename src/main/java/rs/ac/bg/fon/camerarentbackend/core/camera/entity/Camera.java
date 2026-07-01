@@ -17,7 +17,7 @@ public class Camera {
 
     private Double pricePerDay;
 
-    private String condition;
+    private String cameraCondition;
 
     @ManyToOne
     @JoinColumn(name = "camera_model_id", nullable = false)
