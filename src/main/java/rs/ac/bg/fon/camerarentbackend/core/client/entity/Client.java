@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import rs.ac.bg.fon.camerarentbackend.core.city.entity.City;
+import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.entity.ClientType;
 
 @Entity
 @Getter
@@ -19,6 +20,8 @@ public class Client {
     private String surname;
 
     private String email;
+
+    private String password;
 
     private String phoneNumber;
 

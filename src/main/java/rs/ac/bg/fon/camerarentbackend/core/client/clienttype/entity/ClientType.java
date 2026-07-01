@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.client.entity;
+package rs.ac.bg.fon.camerarentbackend.core.client.clienttype.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

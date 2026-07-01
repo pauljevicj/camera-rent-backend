@@ -3,6 +3,7 @@ package rs.ac.bg.fon.camerarentbackend.core.camera.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.entity.CameraModel;
 
 @Entity
 @Getter

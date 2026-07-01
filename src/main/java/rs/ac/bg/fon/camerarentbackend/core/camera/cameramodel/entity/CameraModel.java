@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.camera.entity;
+package rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
