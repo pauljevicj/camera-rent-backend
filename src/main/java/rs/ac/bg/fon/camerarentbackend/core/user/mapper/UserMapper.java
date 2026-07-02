@@ -12,3 +12,4 @@ public interface UserMapper {
 
     User toEntity(UserRequestDto requestDto);
 }
+

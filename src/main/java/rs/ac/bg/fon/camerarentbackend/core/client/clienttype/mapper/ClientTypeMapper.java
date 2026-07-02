@@ -12,3 +12,4 @@ public interface ClientTypeMapper {
 
     ClientType toEntity(ClientTypeRequestDto requestDto);
 }
+

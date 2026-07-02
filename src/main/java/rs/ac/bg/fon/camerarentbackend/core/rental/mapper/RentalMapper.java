@@ -12,3 +12,4 @@ public interface RentalMapper {
 
     Rental toEntity(RentalRequestDto requestDto);
 }
+

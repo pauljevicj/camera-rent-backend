@@ -12,3 +12,4 @@ public interface CameraModelMapper {
 
     CameraModel toEntity(CameraModelRequestDto requestDto);
 }
+

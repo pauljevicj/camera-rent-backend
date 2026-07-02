@@ -12,3 +12,4 @@ public interface CityMapper {
 
     City toEntity(CityRequestDto requestDto);
 }
+
