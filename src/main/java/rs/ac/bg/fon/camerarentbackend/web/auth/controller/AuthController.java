@@ -38,7 +38,7 @@ public class AuthController {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.username(),
+                            request.email(),
                             request.password()
                     )
             );
@@ -58,14 +58,14 @@ public class AuthController {
     @Operation(summary = "Client Login", description = "Authenticate client with email and password to receive JWT token")
     public ResponseEntity<AuthResponse> clientLogin(@RequestBody AuthRequest request) {
         try {
-            var client = clientRepository.findByEmail(request.username())
+            var client = clientRepository.findByEmail(request.email())
                     .orElseThrow(() -> new RuntimeException("Client not found"));
 
             if (!passwordEncoder.matches(request.password(), client.getPassword())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
-            String token = jwtTokenProvider.generateToken(request.username());
+            String token = jwtTokenProvider.generateToken(request.email());
 
             return ResponseEntity.ok(new AuthResponse(token, "Bearer", 86400L));
         } catch (Exception e) {
