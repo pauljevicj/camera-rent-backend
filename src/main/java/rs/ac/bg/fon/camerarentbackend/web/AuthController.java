@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.web.auth.controller;
+package rs.ac.bg.fon.camerarentbackend.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,9 +15,9 @@ import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
 import rs.ac.bg.fon.camerarentbackend.core.client.repository.ClientRepository;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.repository.ClientTypeRepository;
 import rs.ac.bg.fon.camerarentbackend.infrastructure.security.jwt.JwtTokenProvider;
-import rs.ac.bg.fon.camerarentbackend.web.auth.dto.AuthRequest;
-import rs.ac.bg.fon.camerarentbackend.web.auth.dto.AuthResponse;
-import rs.ac.bg.fon.camerarentbackend.web.auth.dto.ClientRegisterRequest;
+import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRegisterRequest;
+
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -34,12 +34,12 @@ public class AuthController {
 
     @PostMapping("/user/login")
     @Operation(summary = "User Login", description = "Authenticate user with email and password to receive JWT token")
-    public ResponseEntity<AuthResponse> userLogin(@RequestBody AuthRequest request) {
+    public ResponseEntity<Object> userLogin(@RequestBody HashMap<String, String> auth) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.email(),
-                            request.password()
+                            auth.get("email"),
+                            auth.get("password")
                     )
             );
 
@@ -48,7 +48,7 @@ public class AuthController {
                     authentication.getAuthorities().stream().toList()
             );
 
-            return ResponseEntity.ok(new AuthResponse(token, "Bearer", 86400L));
+            return ResponseEntity.ok(token);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -56,18 +56,18 @@ public class AuthController {
 
     @PostMapping("/client/login")
     @Operation(summary = "Client Login", description = "Authenticate client with email and password to receive JWT token")
-    public ResponseEntity<AuthResponse> clientLogin(@RequestBody AuthRequest request) {
+    public ResponseEntity<Object> clientLogin(@RequestBody HashMap<String, String> auth) {
         try {
-            var client = clientRepository.findByEmail(request.email())
+            var client = clientRepository.findByEmail(auth.get("email"))
                     .orElseThrow(() -> new RuntimeException("Client not found"));
 
-            if (!passwordEncoder.matches(request.password(), client.getPassword())) {
+            if (!passwordEncoder.matches(auth.get("password"), client.getPassword())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
-            String token = jwtTokenProvider.generateToken(request.email());
+            String token = jwtTokenProvider.generateToken(auth.get("email"));
 
-            return ResponseEntity.ok(new AuthResponse(token, "Bearer", 86400L));
+            return ResponseEntity.ok(token);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
