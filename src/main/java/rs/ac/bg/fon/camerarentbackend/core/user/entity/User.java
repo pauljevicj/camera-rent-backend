@@ -1,11 +1,10 @@
 package rs.ac.bg.fon.camerarentbackend.core.user.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
 
 @Entity
 @Getter
@@ -20,7 +19,8 @@ public class User {
 
     private String surname;
 
-    private String email;
-
-    private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
+    @NotNull(message = "Account is mandatory")
+    private Account account;
 }

@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.user.service.impl;
+package rs.ac.bg.fon.camerarentbackend.core.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,7 +7,6 @@ import rs.ac.bg.fon.camerarentbackend.core.user.dto.UserResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.user.entity.User;
 import rs.ac.bg.fon.camerarentbackend.core.user.mapper.UserMapper;
 import rs.ac.bg.fon.camerarentbackend.core.user.repository.UserRepository;
-import rs.ac.bg.fon.camerarentbackend.core.user.service.UserService;
 
 import java.util.List;
 
@@ -20,8 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto create(UserRequestDto requestDto) {
-        User user = userMapper.toEntity(requestDto);
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(userMapper.toEntity(requestDto));
         return userMapper.toResponseDto(savedUser);
     }
 
@@ -29,12 +27,8 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto update(Long id, UserRequestDto requestDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
-        user.setName(requestDto.name());
-        user.setSurname(requestDto.surname());
-        user.setEmail(requestDto.email());
-        user.setPassword(requestDto.password());
-        User updatedUser = userRepository.save(user);
-        return userMapper.toResponseDto(updatedUser);
+        userMapper.update(user, requestDto);
+        return userMapper.toResponseDto(userRepository.save(user));
     }
 
     @Override

@@ -9,6 +9,7 @@ import rs.ac.bg.fon.camerarentbackend.core.camera.entity.Camera;
 import rs.ac.bg.fon.camerarentbackend.core.camera.mapper.CameraMapper;
 import rs.ac.bg.fon.camerarentbackend.core.camera.repository.CameraRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -54,5 +55,17 @@ public class CameraServiceImpl implements CameraService {
 //            throw new RuntimeException(Camera.class.getSimpleName(), "id", id.toString());
         }
         cameraRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CameraResponseDto> getAvailableCameras(LocalDate start, LocalDate end) {
+
+        if (end.isBefore(start)) {
+            throw new IllegalArgumentException("End date cannot be before start date.");
+        }
+
+        return cameraRepository.findAvailableCameras(start, end).stream()
+                .map(cameraMapper::toResponseDto)
+                .toList();
     }
 }

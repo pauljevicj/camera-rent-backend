@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.rental.service.impl;
+package rs.ac.bg.fon.camerarentbackend.core.rental.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,6 @@ import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.entity.Rental;
 import rs.ac.bg.fon.camerarentbackend.core.rental.mapper.RentalMapper;
 import rs.ac.bg.fon.camerarentbackend.core.rental.repository.RentalRepository;
-import rs.ac.bg.fon.camerarentbackend.core.rental.service.RentalService;
 import rs.ac.bg.fon.camerarentbackend.core.user.repository.UserRepository;
 
 import java.util.List;

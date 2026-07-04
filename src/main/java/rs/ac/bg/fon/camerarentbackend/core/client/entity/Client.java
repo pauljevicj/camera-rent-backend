@@ -1,8 +1,10 @@
 package rs.ac.bg.fon.camerarentbackend.core.client.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
 import rs.ac.bg.fon.camerarentbackend.core.city.entity.City;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.entity.ClientType;
 
@@ -19,10 +21,6 @@ public class Client {
 
     private String surname;
 
-    private String email;
-
-    private String password;
-
     private String phoneNumber;
 
     @ManyToOne
@@ -32,4 +30,9 @@ public class Client {
     @ManyToOne
     @JoinColumn(name = "client_type_id", nullable = false)
     private ClientType clientType;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
+    @NotNull(message = "Account is mandatory")
+    private Account account;
 }

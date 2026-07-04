@@ -10,6 +10,7 @@ import rs.ac.bg.fon.camerarentbackend.core.camera.dto.CameraRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.camera.dto.CameraResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.camera.service.CameraService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -52,5 +53,14 @@ public class CameraController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         cameraService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/available")
+    @Operation(summary = "Get available cameras", description = "Retrieve cameras that are available within the specified date range")
+    public ResponseEntity<List<CameraResponseDto>> getAvailableCameras(
+            @RequestParam LocalDate start,
+            @RequestParam LocalDate end) {
+
+        return ResponseEntity.ok(cameraService.getAvailableCameras(start, end));
     }
 }
