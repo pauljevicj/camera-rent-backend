@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.client.clienttype.service.impl;
+package rs.ac.bg.fon.camerarentbackend.core.client.clienttype.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,6 @@ import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.dto.ClientTypeReque
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.dto.ClientTypeResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.mapper.ClientTypeMapper;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.repository.ClientTypeRepository;
-import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.service.ClientTypeService;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.entity.ClientType;
 
 import java.util.List;

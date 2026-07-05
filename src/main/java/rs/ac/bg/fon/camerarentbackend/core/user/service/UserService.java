@@ -2,6 +2,7 @@ package rs.ac.bg.fon.camerarentbackend.core.user.service;
 
 import rs.ac.bg.fon.camerarentbackend.core.user.dto.UserRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.user.dto.UserResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.user.entity.User;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface UserService {
     List<UserResponseDto> getAll();
 
     void delete(Long id);
+
+    User toEntity(Long id);
 }

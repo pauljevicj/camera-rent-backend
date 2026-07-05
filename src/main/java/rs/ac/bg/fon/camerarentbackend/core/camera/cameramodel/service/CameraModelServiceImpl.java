@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.service.impl;
+package rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,6 @@ import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.dto.CameraModelReq
 import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.dto.CameraModelResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.mapper.CameraModelMapper;
 import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.repository.CameraModelRepository;
-import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.service.CameraModelService;
 import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.entity.CameraModel;
 
 import java.util.List;
@@ -53,5 +52,16 @@ public class CameraModelServiceImpl implements CameraModelService {
     @Override
     public void delete(Long id) {
         cameraModelRepository.deleteById(id);
+    }
+
+    @Override
+    public CameraModel toEntity(Long id) {
+        return cameraModelRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("CameraModel not found with id: " + id));
+    }
+
+    @Override
+    public Long toDto(CameraModel cameraModel) {
+        return cameraModel.getId();
     }
 }

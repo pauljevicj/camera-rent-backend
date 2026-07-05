@@ -43,8 +43,12 @@ public class RentalController {
 
     @GetMapping
     @Operation(summary = "Get all rentals", description = "Retrieve all rentals")
-    public ResponseEntity<List<RentalResponseDto>> getAll() {
-        return ResponseEntity.ok(rentalService.getAll());
+    public ResponseEntity<List<RentalResponseDto>> getAll(@RequestParam(required = false) String status) {
+        if (status == null || status.isBlank()) {
+            return ResponseEntity.ok(rentalService.getAll());
+        }
+
+        return ResponseEntity.ok(rentalService.getByStatus(status));
     }
 
     @DeleteMapping("/{id}")
@@ -52,5 +56,12 @@ public class RentalController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         rentalService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{id}/approve")
+    @Operation(summary = "Approve a rental", description = "Approve a rental")
+    public ResponseEntity<RentalResponseDto> approve(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(rentalService.approve(id));
     }
 }

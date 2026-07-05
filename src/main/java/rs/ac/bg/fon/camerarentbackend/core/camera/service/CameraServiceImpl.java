@@ -2,7 +2,6 @@ package rs.ac.bg.fon.camerarentbackend.core.camera.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.repository.CameraModelRepository;
 import rs.ac.bg.fon.camerarentbackend.core.camera.dto.CameraRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.camera.dto.CameraResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.camera.entity.Camera;
@@ -17,7 +16,6 @@ import java.util.List;
 public class CameraServiceImpl implements CameraService {
 
     private final CameraRepository cameraRepository;
-    private final CameraModelRepository cameraModelRepository;
     private final CameraMapper cameraMapper;
 
     @Override
@@ -67,5 +65,11 @@ public class CameraServiceImpl implements CameraService {
         return cameraRepository.findAvailableCameras(start, end).stream()
                 .map(cameraMapper::toResponseDto)
                 .toList();
+    }
+
+    @Override
+    public Camera toEntity(Long id) {
+        return cameraRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Camera not found with id: " + id));
     }
 }

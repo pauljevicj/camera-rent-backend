@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.city.service.impl;
+package rs.ac.bg.fon.camerarentbackend.core.city.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,7 +7,6 @@ import rs.ac.bg.fon.camerarentbackend.core.city.dto.CityResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.city.entity.City;
 import rs.ac.bg.fon.camerarentbackend.core.city.mapper.CityMapper;
 import rs.ac.bg.fon.camerarentbackend.core.city.repository.CityRepository;
-import rs.ac.bg.fon.camerarentbackend.core.city.service.CityService;
 
 import java.util.List;
 

@@ -51,4 +51,10 @@ public class ClientServiceImpl implements ClientService {
     public void delete(Long id) {
         clientRepository.deleteById(id);
     }
+
+    @Override
+    public Client toEntity(Long id) {
+        return clientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + id));
+    }
 }

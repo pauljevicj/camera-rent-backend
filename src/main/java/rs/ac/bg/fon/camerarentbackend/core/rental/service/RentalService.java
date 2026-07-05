@@ -16,4 +16,8 @@ public interface RentalService {
     List<RentalResponseDto> getAll();
 
     void delete(Long id);
+
+    RentalResponseDto approve(Long id);
+
+    List<RentalResponseDto> getByStatus(String status);
 }

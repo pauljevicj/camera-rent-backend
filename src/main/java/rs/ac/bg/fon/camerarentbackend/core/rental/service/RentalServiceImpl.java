@@ -2,14 +2,11 @@ package rs.ac.bg.fon.camerarentbackend.core.rental.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import rs.ac.bg.fon.camerarentbackend.core.camera.repository.CameraRepository;
-import rs.ac.bg.fon.camerarentbackend.core.client.repository.ClientRepository;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.entity.Rental;
 import rs.ac.bg.fon.camerarentbackend.core.rental.mapper.RentalMapper;
 import rs.ac.bg.fon.camerarentbackend.core.rental.repository.RentalRepository;
-import rs.ac.bg.fon.camerarentbackend.core.user.repository.UserRepository;
 
 import java.util.List;
 
@@ -18,31 +15,11 @@ import java.util.List;
 public class RentalServiceImpl implements RentalService {
 
     private final RentalRepository rentalRepository;
-    private final ClientRepository clientRepository;
-    private final UserRepository userRepository;
-    private final CameraRepository cameraRepository;
     private final RentalMapper rentalMapper;
 
     @Override
     public RentalResponseDto create(RentalRequestDto requestDto) {
-        Rental rental = new Rental();
-        rental.setStartDate(requestDto.startDate());
-        rental.setEndDate(requestDto.endDate());
-        rental.setStatus(requestDto.status());
-        
-        var client = clientRepository.findById(requestDto.clientId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + requestDto.clientId()));
-        rental.setClient(client);
-        
-        var user = userRepository.findById(requestDto.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + requestDto.userId()));
-        rental.setUser(user);
-        
-        var camera = cameraRepository.findById(requestDto.cameraId())
-                .orElseThrow(() -> new IllegalArgumentException("Camera not found with id: " + requestDto.cameraId()));
-        rental.setCamera(camera);
-        
-        Rental savedRental = rentalRepository.save(rental);
+        Rental savedRental = rentalRepository.save(rentalMapper.toEntity(requestDto));
         return rentalMapper.toResponseDto(savedRental);
     }
 
@@ -50,25 +27,9 @@ public class RentalServiceImpl implements RentalService {
     public RentalResponseDto update(Long id, RentalRequestDto requestDto) {
         Rental rental = rentalRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Rental not found with id: " + id));
-        
-        rental.setStartDate(requestDto.startDate());
-        rental.setEndDate(requestDto.endDate());
-        rental.setStatus(requestDto.status());
-        
-        var client = clientRepository.findById(requestDto.clientId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + requestDto.clientId()));
-        rental.setClient(client);
-        
-        var user = userRepository.findById(requestDto.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + requestDto.userId()));
-        rental.setUser(user);
-        
-        var camera = cameraRepository.findById(requestDto.cameraId())
-                .orElseThrow(() -> new IllegalArgumentException("Camera not found with id: " + requestDto.cameraId()));
-        rental.setCamera(camera);
-        
-        Rental updatedRental = rentalRepository.save(rental);
-        return rentalMapper.toResponseDto(updatedRental);
+
+        rentalMapper.update(rental, requestDto);
+        return rentalMapper.toResponseDto(rentalRepository.save(rental));
     }
 
     @Override
@@ -89,5 +50,24 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public void delete(Long id) {
         rentalRepository.deleteById(id);
+    }
+
+    @Override
+    public RentalResponseDto approve(Long id) {
+        return rentalRepository.findById(id)
+                .map(rental -> {
+                    rental.setStatus("APPROVED");
+                    Rental updatedRental = rentalRepository.save(rental);
+                    return rentalMapper.toResponseDto(updatedRental);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Rental not found with id: " + id));
+    }
+
+    @Override
+    public List<RentalResponseDto> getByStatus(String status) {
+        return rentalRepository.findByStatus(status)
+                .stream()
+                .map(rentalMapper::toResponseDto)
+                .toList();
     }
 }
