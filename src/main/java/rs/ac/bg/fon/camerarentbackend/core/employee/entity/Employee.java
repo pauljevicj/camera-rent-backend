@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.camerarentbackend.core.user.entity;
+package rs.ac.bg.fon.camerarentbackend.core.employee.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
 @Entity
 @Getter
 @Setter
-public class User {
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

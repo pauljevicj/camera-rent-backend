@@ -5,13 +5,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import rs.ac.bg.fon.camerarentbackend.core.camera.service.CameraService;
 import rs.ac.bg.fon.camerarentbackend.core.client.service.ClientService;
+import rs.ac.bg.fon.camerarentbackend.core.employee.service.EmployeeService;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.entity.Rental;
-import rs.ac.bg.fon.camerarentbackend.core.user.service.UserService;
 
 @Mapper(componentModel = "spring", uses = {
-        UserService.class, ClientService.class, CameraService.class
+        EmployeeService.class, ClientService.class, CameraService.class
 })
 public interface RentalMapper {
 

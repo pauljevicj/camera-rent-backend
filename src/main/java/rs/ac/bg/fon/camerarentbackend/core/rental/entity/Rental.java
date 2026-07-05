@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import rs.ac.bg.fon.camerarentbackend.core.camera.entity.Camera;
 import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
-import rs.ac.bg.fon.camerarentbackend.core.user.entity.User;
+import rs.ac.bg.fon.camerarentbackend.core.employee.entity.Employee;
 
 import java.time.LocalDate;
 
@@ -22,15 +22,15 @@ public class Rental {
 
     private LocalDate endDate;
 
-    private String status; // da li je vratio ili nije
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
-    private User user;
+    @JoinColumn(name = "employee_id", nullable = true)
+    private Employee user;
 
     @ManyToOne
     @JoinColumn(name = "camera_id", nullable = false)

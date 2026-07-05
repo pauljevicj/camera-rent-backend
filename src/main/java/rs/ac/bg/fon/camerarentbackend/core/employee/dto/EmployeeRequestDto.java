@@ -1,8 +1,8 @@
-package rs.ac.bg.fon.camerarentbackend.core.user.dto;
+package rs.ac.bg.fon.camerarentbackend.core.employee.dto;
 
 import rs.ac.bg.fon.camerarentbackend.core.account.dto.AccountRequestDto;
 
-public record UserRequestDto(
+public record EmployeeRequestDto(
         String name,
         String surname,
         AccountRequestDto account

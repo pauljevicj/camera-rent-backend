@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+import rs.ac.bg.fon.camerarentbackend.core.account.dto.Role;
 
 @Entity
 @Getter
@@ -19,4 +20,6 @@ public class Account {
     private String email;
 
     private String password;
+
+    private Role role;
 }

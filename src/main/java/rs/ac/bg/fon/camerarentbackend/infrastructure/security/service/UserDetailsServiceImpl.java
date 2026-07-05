@@ -9,7 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.camerarentbackend.core.account.repository.AccountRepository;
-import rs.ac.bg.fon.camerarentbackend.core.user.repository.UserRepository;
+import rs.ac.bg.fon.camerarentbackend.core.client.repository.ClientRepository;
+import rs.ac.bg.fon.camerarentbackend.core.employee.repository.EmployeeRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +20,10 @@ import java.util.Collection;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final AccountRepository accountRepository;
+
+    private final EmployeeRepository employeeRepository;
+
+    private final ClientRepository clientRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
