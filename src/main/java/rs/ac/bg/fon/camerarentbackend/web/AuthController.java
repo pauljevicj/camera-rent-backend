@@ -9,6 +9,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.client.service.ClientService;
 import rs.ac.bg.fon.camerarentbackend.infrastructure.security.jwt.JwtTokenProvider;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRegisterRequest;
 
@@ -23,6 +25,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final ClientService clientService;
 
     @PostMapping("/login")
     @Operation(summary = "User Login", description = "Authenticate user with email and password to receive JWT token")
@@ -52,35 +55,32 @@ public class AuthController {
     @PostMapping("/client/register")
     @Operation(summary = "Client Register", description = "Register a new client account")
     public ResponseEntity<?> clientRegister(@RequestBody ClientRegisterRequest request) {
-        return null;
-//        try {
-//            if (clientRepository.findByEmail(request.email()).isPresent()) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                        .body("Email already registered");
-//            }
-//
-//            var city = cityRepository.findById(request.cityId())
-//                    .orElseThrow(() -> new RuntimeException("City not found"));
-//
-//            var clientType = clientTypeRepository.findById(request.clientTypeId())
-//                    .orElseThrow(() -> new RuntimeException("ClientType not found"));
-//
-//            Client client = new Client();
-//            client.setName(request.name());
-//            client.setSurname(request.surname());
-//            client.setEmail(request.email());
-//            client.setPassword(passwordEncoder.encode(request.password()));
-//            client.setPhoneNumber(request.phoneNumber());
-//            client.setCity(city);
-//            client.setClientType(clientType);
-//
-//            clientRepository.save(client);
-//
-//            return ResponseEntity.status(HttpStatus.CREATED)
-//                    .body("Client registered successfully");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body("Registration failed: " + e.getMessage());
-//        }
+        try {
+
+            ClientResponseDto client = clientService.register(request);
+
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.email(),
+                            request.password()
+                    )
+            );
+
+            String token = jwtTokenProvider.generateToken(
+                    authentication.getName(),
+                    authentication.getAuthorities().stream().toList()
+            );
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Map.of(
+                            "client", client,
+                            "jwtToken", token
+                    ));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+
     }
 }

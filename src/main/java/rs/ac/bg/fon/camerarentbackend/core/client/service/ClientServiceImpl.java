@@ -2,6 +2,7 @@ package rs.ac.bg.fon.camerarentbackend.core.client.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRegisterRequest;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
@@ -56,5 +57,10 @@ public class ClientServiceImpl implements ClientService {
     public Client toEntity(Long id) {
         return clientRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + id));
+    }
+
+    @Override
+    public ClientResponseDto register(ClientRegisterRequest requestDto) {
+        return null;
     }
 }
