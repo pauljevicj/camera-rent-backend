@@ -1,8 +1,10 @@
 package rs.ac.bg.fon.camerarentbackend.core.client.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRegisterRequest;
+import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
+import rs.ac.bg.fon.camerarentbackend.core.account.entity.Role;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
@@ -17,6 +19,7 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ClientResponseDto create(ClientRequestDto requestDto) {
@@ -60,7 +63,15 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientResponseDto register(ClientRegisterRequest requestDto) {
-        return null;
+    public ClientResponseDto register(ClientRequestDto requestDto) {
+        Account account = new Account();
+        account.setEmail(requestDto.account().email());
+        account.setPassword(passwordEncoder.encode(requestDto.account().password()));
+        account.setRole(Role.CLIENT);
+
+        Client client = clientMapper.toEntity(requestDto);
+        client.setAccount(account);
+
+        return clientMapper.toResponseDto(clientRepository.save(client));
     }
 }

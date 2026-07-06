@@ -2,6 +2,7 @@ package rs.ac.bg.fon.camerarentbackend.core.city.service;
 
 import rs.ac.bg.fon.camerarentbackend.core.city.dto.CityRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.city.dto.CityResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.city.entity.City;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface CityService {
     List<CityResponseDto> getAll();
 
     void delete(Long id);
+
+    City toEntity(Long id);
 }

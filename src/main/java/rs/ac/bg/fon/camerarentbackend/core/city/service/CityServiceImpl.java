@@ -7,6 +7,7 @@ import rs.ac.bg.fon.camerarentbackend.core.city.dto.CityResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.city.entity.City;
 import rs.ac.bg.fon.camerarentbackend.core.city.mapper.CityMapper;
 import rs.ac.bg.fon.camerarentbackend.core.city.repository.CityRepository;
+import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
 
 import java.util.List;
 
@@ -51,5 +52,11 @@ public class CityServiceImpl implements CityService {
     @Override
     public void delete(Long id) {
         cityRepository.deleteById(id);
+    }
+
+    @Override
+    public City toEntity(Long id) {
+        return cityRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("City not found with id: " + id));
     }
 }

@@ -2,6 +2,7 @@ package rs.ac.bg.fon.camerarentbackend.core.client.clienttype.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import rs.ac.bg.fon.camerarentbackend.core.city.entity.City;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.dto.ClientTypeRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.dto.ClientTypeResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.mapper.ClientTypeMapper;
@@ -51,5 +52,11 @@ public class ClientTypeServiceImpl implements ClientTypeService {
     @Override
     public void delete(Long id) {
         clientTypeRepository.deleteById(id);
+    }
+
+    @Override
+    public ClientType toEntity(Long id) {
+        return clientTypeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client Type not found with id: " + id));
     }
 }

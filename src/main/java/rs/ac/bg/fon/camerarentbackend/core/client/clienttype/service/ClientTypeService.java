@@ -2,6 +2,7 @@ package rs.ac.bg.fon.camerarentbackend.core.client.clienttype.service;
 
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.dto.ClientTypeRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.dto.ClientTypeResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.entity.ClientType;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ClientTypeService {
     List<ClientTypeResponseDto> getAll();
 
     void delete(Long id);
+
+    ClientType toEntity(Long id);
 }

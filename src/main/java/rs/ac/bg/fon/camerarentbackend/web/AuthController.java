@@ -9,10 +9,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.service.ClientService;
 import rs.ac.bg.fon.camerarentbackend.infrastructure.security.jwt.JwtTokenProvider;
-import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRegisterRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,15 +54,15 @@ public class AuthController {
 
     @PostMapping("/client/register")
     @Operation(summary = "Client Register", description = "Register a new client account")
-    public ResponseEntity<?> clientRegister(@RequestBody ClientRegisterRequest request) {
+    public ResponseEntity<?> clientRegister(@RequestBody ClientRequestDto request) {
         try {
 
             ClientResponseDto client = clientService.register(request);
 
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.email(),
-                            request.password()
+                            request.account().email(),
+                            request.account().password()
                     )
             );
 
