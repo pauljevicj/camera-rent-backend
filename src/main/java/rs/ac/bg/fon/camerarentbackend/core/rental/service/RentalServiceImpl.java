@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.entity.Rental;
+import rs.ac.bg.fon.camerarentbackend.core.rental.entity.RentalStatus;
 import rs.ac.bg.fon.camerarentbackend.core.rental.mapper.RentalMapper;
 import rs.ac.bg.fon.camerarentbackend.core.rental.repository.RentalRepository;
 
@@ -56,7 +57,7 @@ public class RentalServiceImpl implements RentalService {
     public RentalResponseDto approve(Long id) {
         return rentalRepository.findById(id)
                 .map(rental -> {
-                    rental.setStatus("APPROVED");
+                    rental.setStatus(RentalStatus.APPROVED);
                     Rental updatedRental = rentalRepository.save(rental);
                     return rentalMapper.toResponseDto(updatedRental);
                 })
@@ -64,7 +65,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<RentalResponseDto> getByStatus(String status) {
+    public List<RentalResponseDto> getByStatus(RentalStatus status) {
         return rentalRepository.findByStatus(status)
                 .stream()
                 .map(rentalMapper::toResponseDto)

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.rental.entity.RentalStatus;
 import rs.ac.bg.fon.camerarentbackend.core.rental.service.RentalService;
 
 import java.util.List;
@@ -43,8 +44,8 @@ public class RentalController {
 
     @GetMapping
     @Operation(summary = "Get all rentals", description = "Retrieve all rentals")
-    public ResponseEntity<List<RentalResponseDto>> getAll(@RequestParam(required = false) String status) {
-        if (status == null || status.isBlank()) {
+    public ResponseEntity<List<RentalResponseDto>> getAll(@RequestParam(required = false) RentalStatus status) {
+        if (status == null) {
             return ResponseEntity.ok(rentalService.getAll());
         }
 

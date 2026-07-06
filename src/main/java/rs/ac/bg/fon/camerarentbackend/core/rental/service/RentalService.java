@@ -2,6 +2,7 @@ package rs.ac.bg.fon.camerarentbackend.core.rental.service;
 
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.rental.entity.RentalStatus;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ public interface RentalService {
 
     RentalResponseDto approve(Long id);
 
-    List<RentalResponseDto> getByStatus(String status);
+    List<RentalResponseDto> getByStatus(RentalStatus status);
 }

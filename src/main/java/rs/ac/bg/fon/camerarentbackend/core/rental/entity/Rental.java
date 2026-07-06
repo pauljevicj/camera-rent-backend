@@ -22,7 +22,7 @@ public class Rental {
 
     private LocalDate endDate;
 
-    private String status;
+    private RentalStatus status;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
