@@ -7,6 +7,5 @@ public record ClientRequestDto(
         String surname,
         AccountRequestDto account,
         String phoneNumber,
-        Long cityId,
-        Long clientTypeId
+        Long cityId
 ) {}

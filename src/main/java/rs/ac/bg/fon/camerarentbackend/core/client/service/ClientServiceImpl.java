@@ -8,6 +8,7 @@ import rs.ac.bg.fon.camerarentbackend.core.account.entity.Role;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
+import rs.ac.bg.fon.camerarentbackend.core.client.entity.ClientType;
 import rs.ac.bg.fon.camerarentbackend.core.client.mapper.ClientMapper;
 import rs.ac.bg.fon.camerarentbackend.core.client.repository.ClientRepository;
 
@@ -71,6 +72,7 @@ public class ClientServiceImpl implements ClientService {
 
         Client client = clientMapper.toEntity(requestDto);
         client.setAccount(account);
+        client.setClientType(ClientType.STANDARD);
 
         return clientMapper.toResponseDto(clientRepository.save(client));
     }

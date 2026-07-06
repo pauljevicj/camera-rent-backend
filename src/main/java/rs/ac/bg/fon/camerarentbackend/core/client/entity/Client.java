@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
 import rs.ac.bg.fon.camerarentbackend.core.city.entity.City;
-import rs.ac.bg.fon.camerarentbackend.core.client.clienttype.entity.ClientType;
 
 @Entity
 @Getter
@@ -23,13 +22,11 @@ public class Client {
 
     private String phoneNumber;
 
+    private ClientType clientType;
+
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
-
-    @ManyToOne
-    @JoinColumn(name = "client_type_id", nullable = false)
-    private ClientType clientType;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
