@@ -21,4 +21,6 @@ public interface RentalService {
     RentalResponseDto approve(Long id);
 
     List<RentalResponseDto> getByStatus(RentalStatus status);
+
+    List<RentalResponseDto> getAllProcessed();
 }

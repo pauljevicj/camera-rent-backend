@@ -71,4 +71,12 @@ public class RentalServiceImpl implements RentalService {
                 .map(rentalMapper::toResponseDto)
                 .toList();
     }
+
+    @Override
+    public List<RentalResponseDto> getAllProcessed() {
+        return rentalRepository.findProcessed()
+                .stream()
+                .map(rentalMapper::toResponseDto)
+                .toList();
+    }
 }

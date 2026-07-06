@@ -65,4 +65,10 @@ public class RentalController {
             @PathVariable Long id) {
         return ResponseEntity.ok(rentalService.approve(id));
     }
+
+    @GetMapping("/processed")
+    @Operation(summary = "Get all processed rentals", description = "Retrieve all processed rentals")
+    public ResponseEntity<List<RentalResponseDto>> getAllProcessed() {
+        return ResponseEntity.ok(rentalService.getAllProcessed());
+    }
 }
