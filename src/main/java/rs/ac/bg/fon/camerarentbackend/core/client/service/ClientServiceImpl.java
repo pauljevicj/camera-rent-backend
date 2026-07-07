@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
 import rs.ac.bg.fon.camerarentbackend.core.account.entity.Role;
+import rs.ac.bg.fon.camerarentbackend.core.account.repository.AccountRepository;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientUpdateDto;
@@ -12,6 +13,7 @@ import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
 import rs.ac.bg.fon.camerarentbackend.core.client.entity.ClientType;
 import rs.ac.bg.fon.camerarentbackend.core.client.mapper.ClientMapper;
 import rs.ac.bg.fon.camerarentbackend.core.client.repository.ClientRepository;
+import rs.ac.bg.fon.camerarentbackend.infrastructure.exception.EmailAlreadyExistsException;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AccountRepository accountRepository;
 
     @Override
     public ClientResponseDto create(ClientRequestDto requestDto) {
@@ -66,6 +69,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientResponseDto register(ClientRequestDto requestDto) {
+
+        if (accountRepository.existsByEmail(requestDto.account().email())) {
+            throw new EmailAlreadyExistsException(
+                    "Account with this email already exists"
+            );
+        }
+
         Account account = new Account();
         account.setEmail(requestDto.account().email());
         account.setPassword(passwordEncoder.encode(requestDto.account().password()));
