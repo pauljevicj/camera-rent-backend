@@ -46,6 +46,7 @@ public class RentalServiceImpl implements RentalService {
         Rental rental = rentalMapper.toEntity(requestDto);
 
         rental.setClient(client);
+        rental.setStatus(RentalStatus.PENDING);
 
         return rentalMapper.toResponseDto(rentalRepository.save(rental));
     }
