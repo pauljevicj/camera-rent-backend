@@ -17,5 +17,6 @@ public interface CameraMapper {
     @Mapping(target = "cameraModel", source = "cameraModelId")
     Camera toEntity(CameraRequestDto requestDto);
 
+    @Mapping(target = "cameraModel", source = "cameraModelId")
     void update(@MappingTarget Camera camera, CameraRequestDto requestDto);
 }

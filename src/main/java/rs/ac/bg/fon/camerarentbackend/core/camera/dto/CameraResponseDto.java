@@ -4,7 +4,6 @@ import rs.ac.bg.fon.camerarentbackend.core.camera.cameramodel.dto.CameraModelRes
 
 public record CameraResponseDto(
         Long id,
-        String status,
         Double pricePerDay,
         String cameraCondition,
         Integer year,

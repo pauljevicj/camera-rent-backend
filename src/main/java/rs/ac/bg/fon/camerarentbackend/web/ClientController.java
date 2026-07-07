@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientUpdateDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.service.ClientService;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class ClientController {
     @Operation(summary = "Update a client", description = "Update an existing client by ID")
     public ResponseEntity<ClientResponseDto> update(
             @PathVariable Long id,
-            @RequestBody ClientRequestDto requestDto) {
-        return ResponseEntity.ok(clientService.update(id, requestDto));
+            @RequestBody ClientUpdateDto clientUpdateDto) {
+        return ResponseEntity.ok(clientService.update(id, clientUpdateDto));
     }
 
     @GetMapping("/{id}")

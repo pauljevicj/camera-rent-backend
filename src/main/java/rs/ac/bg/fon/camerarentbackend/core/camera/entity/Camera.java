@@ -14,8 +14,6 @@ public class Camera {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
-
     private Double pricePerDay;
 
     private String cameraCondition;

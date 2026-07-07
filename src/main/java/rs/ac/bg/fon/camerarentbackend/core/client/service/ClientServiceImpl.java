@@ -7,6 +7,7 @@ import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
 import rs.ac.bg.fon.camerarentbackend.core.account.entity.Role;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientResponseDto;
+import rs.ac.bg.fon.camerarentbackend.core.client.dto.ClientUpdateDto;
 import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
 import rs.ac.bg.fon.camerarentbackend.core.client.entity.ClientType;
 import rs.ac.bg.fon.camerarentbackend.core.client.mapper.ClientMapper;
@@ -29,11 +30,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientResponseDto update(Long id, ClientRequestDto requestDto) {
+    public ClientResponseDto update(Long id, ClientUpdateDto updateDto) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + id));
 
-        clientMapper.update(client, requestDto);
+        clientMapper.update(client, updateDto);
         return clientMapper.toResponseDto(clientRepository.save(client));
     }
 
