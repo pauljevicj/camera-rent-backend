@@ -22,6 +22,7 @@ public class Client {
 
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     private ClientType clientType;
 
     @ManyToOne

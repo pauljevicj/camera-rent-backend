@@ -15,7 +15,7 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     @Query("""
     SELECT r
     FROM Rental r
-    WHERE r.status <> 0
+    WHERE r.status <> 'PENDING'
     """)
     List<Rental> findProcessed();
 }

@@ -1,9 +1,6 @@
 package rs.ac.bg.fon.camerarentbackend.core.account.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +17,6 @@ public class Account {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 }

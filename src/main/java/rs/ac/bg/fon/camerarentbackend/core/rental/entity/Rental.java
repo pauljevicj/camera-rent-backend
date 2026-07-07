@@ -22,6 +22,7 @@ public class Rental {
 
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
     private RentalStatus status;
 
     @ManyToOne
