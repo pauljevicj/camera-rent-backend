@@ -19,7 +19,6 @@ public interface RentalMapper {
 
     @Mapping(target = "client", source = "clientId")
     @Mapping(target = "camera", source = "cameraId")
-    @Mapping(target = "user", source = "userId")
     Rental toEntity(RentalRequestDto requestDto);
 
     void update(@MappingTarget Rental rental, RentalRequestDto requestDto);
