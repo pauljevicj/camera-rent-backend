@@ -30,7 +30,7 @@ public class Rental {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = true)
-    private Employee user;
+    private Employee employee;
 
     @ManyToOne
     @JoinColumn(name = "camera_id", nullable = false)

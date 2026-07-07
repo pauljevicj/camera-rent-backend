@@ -17,7 +17,6 @@ public interface RentalMapper {
 
     RentalResponseDto toResponseDto(Rental rental);
 
-    @Mapping(target = "client", source = "clientId")
     @Mapping(target = "camera", source = "cameraId")
     Rental toEntity(RentalRequestDto requestDto);
 

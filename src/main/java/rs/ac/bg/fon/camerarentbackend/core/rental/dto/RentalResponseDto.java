@@ -12,6 +12,6 @@ public record RentalResponseDto(
         LocalDate endDate,
         String status,
         ClientResponseDto client,
-        EmployeeResponseDto user,
+        EmployeeResponseDto employee,
         CameraResponseDto camera
 ) {}

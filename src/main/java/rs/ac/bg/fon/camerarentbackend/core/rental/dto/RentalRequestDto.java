@@ -6,6 +6,5 @@ public record RentalRequestDto(
         LocalDate startDate,
         LocalDate endDate,
         String status,
-        Long clientId,
         Long cameraId
 ) {}

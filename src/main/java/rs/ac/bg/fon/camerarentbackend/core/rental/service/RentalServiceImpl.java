@@ -1,7 +1,14 @@
 package rs.ac.bg.fon.camerarentbackend.core.rental.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import rs.ac.bg.fon.camerarentbackend.core.account.entity.Account;
+import rs.ac.bg.fon.camerarentbackend.core.account.repository.AccountRepository;
+import rs.ac.bg.fon.camerarentbackend.core.client.entity.Client;
+import rs.ac.bg.fon.camerarentbackend.core.client.repository.ClientRepository;
+import rs.ac.bg.fon.camerarentbackend.core.employee.repository.EmployeeRepository;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalRequestDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.dto.RentalResponseDto;
 import rs.ac.bg.fon.camerarentbackend.core.rental.entity.Rental;
@@ -10,6 +17,7 @@ import rs.ac.bg.fon.camerarentbackend.core.rental.mapper.RentalMapper;
 import rs.ac.bg.fon.camerarentbackend.core.rental.repository.RentalRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,11 +25,29 @@ public class RentalServiceImpl implements RentalService {
 
     private final RentalRepository rentalRepository;
     private final RentalMapper rentalMapper;
+    private final AccountRepository accountRepository;
+    private final ClientRepository clientRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public RentalResponseDto create(RentalRequestDto requestDto) {
-        Rental savedRental = rentalRepository.save(rentalMapper.toEntity(requestDto));
-        return rentalMapper.toResponseDto(savedRental);
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        String email = authentication.getName();
+
+        Account account = accountRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        Client client = clientRepository.findByAccountId(account.getId())
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        Rental rental = rentalMapper.toEntity(requestDto);
+
+        rental.setClient(client);
+
+        return rentalMapper.toResponseDto(rentalRepository.save(rental));
     }
 
     @Override
@@ -55,13 +81,30 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public RentalResponseDto approve(Long id) {
-        return rentalRepository.findById(id)
-                .map(rental -> {
-                    rental.setStatus(RentalStatus.APPROVED);
-                    Rental updatedRental = rentalRepository.save(rental);
-                    return rentalMapper.toResponseDto(updatedRental);
-                })
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        String email = authentication.getName();
+
+        Account account = accountRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        var employee = employeeRepository.findByAccountId(account.getId())
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+
+        Rental rental = rentalRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Rental not found with id: " + id));
+
+
+        rental.setStatus(RentalStatus.APPROVED);
+        rental.setEmployee(employee);
+
+
+        Rental updatedRental = rentalRepository.save(rental);
+
+        return rentalMapper.toResponseDto(updatedRental);
     }
 
     @Override
